@@ -4,11 +4,15 @@ import ai.ldzero.easytcp.AppExecutors
 import ai.ldzero.easytcp.TcpClientHolder
 import ai.ldzero.easytcp.entity.TcpClientSetting
 import ai.ldzero.easytcp.listener.ConnListener
+import ai.ldzero.easytcp.listener.WriteListener
 import ai.ldzero.easytcp.listener.empty.EmptyConnListener
+import ai.ldzero.easytcp.listener.empty.EmptyWriteListener
 import ai.ldzero.easytcp.taskqueue.TaskExecutor
 import ai.ldzero.easytcp.taskqueue.task.CloseTask
 import ai.ldzero.easytcp.taskqueue.task.ConnectTask
+import ai.ldzero.easytcp.taskqueue.task.WriteTask
 import java.net.Socket
+import java.nio.charset.Charset
 
 /**
  * Class Description
@@ -18,7 +22,8 @@ import java.net.Socket
  */
 internal class TcpClientImpl internal constructor(
         _setting: TcpClientSetting,
-        _connListener: ConnListener?): TcpClient {
+        _connListener: ConnListener?,
+        _writeListener: WriteListener?): TcpClient {
 
     val id = this.hashCode()
 
@@ -28,12 +33,15 @@ internal class TcpClientImpl internal constructor(
 
     var connListener: ConnListener = _connListener ?: EmptyConnListener()
 
+    var writeListener: WriteListener = _writeListener ?: EmptyWriteListener()
+
     private val executors = AppExecutors()
 
     private val taskExecutor: TaskExecutor = TaskExecutor(_setting.taskQueueSizse)
 
     init {
         TcpClientHolder.addTcpClient(this)
+        taskExecutor.startWorking()
     }
 
     override fun connect() {
@@ -46,8 +54,22 @@ internal class TcpClientImpl internal constructor(
         taskExecutor.addTask(ConnectTask(id))
     }
 
-    override fun resetConnListener(listener: ConnListener?) {
-        connListener = listener ?: EmptyConnListener()
+    override fun write(data: String, charset: Charset) {
+        write(data.toByteArray(charset))
+    }
+
+    override fun write(data: ByteArray) {
+        executors.networkIO.execute({
+            WriteTask(id, data).run()
+        })
+    }
+
+    override fun sequentialWrite(data: String, charset: Charset) {
+        sequentialWrite(data.toByteArray(charset))
+    }
+
+    override fun sequentialWrite(data: ByteArray) {
+        taskExecutor.addTask(WriteTask(id, data))
     }
 
     override fun close() {
@@ -64,5 +86,13 @@ internal class TcpClientImpl internal constructor(
         taskExecutor.stopWorking()
         close()
         TcpClientHolder.removeTcpClient(id)
+    }
+
+    override fun resetConnListener(listener: ConnListener?) {
+        connListener = listener ?: EmptyConnListener()
+    }
+
+    override fun resetWriteListener(listener: WriteListener?) {
+        writeListener = listener ?: EmptyWriteListener()
     }
 }

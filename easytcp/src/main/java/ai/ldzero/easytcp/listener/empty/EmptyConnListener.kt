@@ -13,7 +13,7 @@ class EmptyConnListener: ConnListener {
 
     }
 
-    override fun onConnFail() {
+    override fun onConnFail(e: Exception) {
 
     }
 

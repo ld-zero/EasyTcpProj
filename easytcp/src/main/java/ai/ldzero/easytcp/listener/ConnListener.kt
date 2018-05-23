@@ -10,7 +10,7 @@ interface ConnListener {
 
     fun onConnect()
 
-    fun onConnFail()
+    fun onConnFail(e: Exception)
 
     fun onClose()
 

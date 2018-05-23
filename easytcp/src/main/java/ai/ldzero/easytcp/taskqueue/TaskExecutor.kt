@@ -30,7 +30,6 @@ internal class TaskExecutor(taskCount: Int) : Thread() {
     }
 
     fun addTask(task: ITask) {
-        if (!isRunning) startWorking()
         taskQueue.offer(task)
     }
 

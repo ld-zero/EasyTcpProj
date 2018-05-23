@@ -26,7 +26,7 @@ internal class ConnectTask(clientId: Int): BaseTask(clientId) {
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            client.connListener.onConnFail()
+            client.connListener.onConnFail(e)
             return
         }
         client.connListener.onConnect()

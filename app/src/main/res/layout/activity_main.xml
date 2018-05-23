@@ -30,10 +30,24 @@
         app:layout_constraintTop_toBottomOf="@id/toolbarLayout"/>
 
     <Button
+        android:id="@+id/btnWrite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/write"
+        app:layout_constraintTop_toBottomOf="@id/btnConnect"/>
+
+    <Button
         android:id="@+id/btnClose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/close"
-        app:layout_constraintTop_toBottomOf="@id/btnConnect"/>
+        app:layout_constraintTop_toBottomOf="@id/btnWrite"/>
+
+    <Button
+        android:id="@+id/btnDestroy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/destroy"
+        app:layout_constraintTop_toBottomOf="@id/btnClose"/>
 
 </android.support.constraint.ConstraintLayout>
