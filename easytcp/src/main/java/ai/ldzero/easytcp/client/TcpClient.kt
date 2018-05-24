@@ -2,6 +2,7 @@ package ai.ldzero.easytcp.client
 
 import ai.ldzero.easytcp.entity.TcpClientSetting
 import ai.ldzero.easytcp.listener.ConnListener
+import ai.ldzero.easytcp.listener.ReadListener
 import ai.ldzero.easytcp.listener.WriteListener
 import java.nio.charset.Charset
 
@@ -21,6 +22,8 @@ interface TcpClient {
 
         private var writeListener: WriteListener? = null
 
+        private var readListener: ReadListener? = null
+
         fun setHost(host: String): Builder {
             setting.host = host
             return this
@@ -36,6 +39,21 @@ interface TcpClient {
             return this
         }
 
+        fun setReadTimeout(readTimeout: Int): Builder {
+            setting.readTimeout = readTimeout
+            return this
+        }
+
+        fun setAutoEnableReader(autoEnableReader: Boolean): Builder {
+            setting.autoEnableReader = autoEnableReader
+            return this
+        }
+
+        fun setReadBuffSize(readBuffSize: Int): Builder {
+            setting.readBuffSize = readBuffSize
+            return this
+        }
+
         fun setConnListener(listener: ConnListener?): Builder {
             connListener = listener
             return this
@@ -46,8 +64,13 @@ interface TcpClient {
             return this
         }
 
+        fun setReadListener(listener: ReadListener?): Builder {
+            readListener = listener
+            return this
+        }
+
         fun build(): TcpClient {
-            return TcpClientImpl(setting, connListener, writeListener)
+            return TcpClientImpl(setting, connListener, writeListener, readListener)
         }
     }
 
@@ -63,6 +86,10 @@ interface TcpClient {
 
     fun sequentialWrite(data: ByteArray)
 
+    fun enableReader()
+
+    fun disableReader()
+
     fun close()
 
     fun sequentialClose()
@@ -72,4 +99,6 @@ interface TcpClient {
     fun resetConnListener(listener: ConnListener?)
 
     fun resetWriteListener(listener: WriteListener?)
+
+    fun resetReadListener(listener: ReadListener?)
 }

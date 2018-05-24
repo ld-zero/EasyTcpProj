@@ -12,6 +12,7 @@ internal class CloseTask(clientId: Int): BaseTask(clientId) {
         val client = getClient() ?: return
         val socket = client.socket
         try {
+            client.disableReader()
             socket.shutdownOutput()
             socket.shutdownInput()
             socket.getOutputStream().close()

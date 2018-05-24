@@ -2,6 +2,7 @@ package ai.ldzero.easytcpproj
 
 import ai.ldzero.easytcp.client.TcpClient
 import ai.ldzero.easytcp.listener.ConnListener
+import ai.ldzero.easytcp.listener.ReadListener
 import ai.ldzero.easytcp.listener.WriteListener
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -42,22 +43,24 @@ class MainActivity : AppCompatActivity() {
                         Log.d("tag", "onWriteFail " + String(data))
                     }
                 })
+                .setReadListener(object : ReadListener {
+                    override fun onRead(data: ByteArray) {
+                        Log.d("tag", "onRead " + String(data))
+                    }
+
+                    override fun onError(e: Exception) {
+                        e.printStackTrace()
+                        Log.d("tag", "onReadFail")
+                    }
+                })
                 .build()
 
-        btnConnect.setOnClickListener({
-            tcpClient.connect()
-        })
+        btnConnect.setOnClickListener({ tcpClient.connect() })
 
-        btnWrite.setOnClickListener({
-            tcpClient.write("123")
-        })
+        btnWrite.setOnClickListener({ tcpClient.write("123") })
 
-        btnClose.setOnClickListener({
-            tcpClient.close()
-        })
+        btnClose.setOnClickListener({ tcpClient.close() })
 
-        btnDestroy.setOnClickListener({
-            tcpClient.destroy()
-        })
+        btnDestroy.setOnClickListener({ tcpClient.destroy() })
     }
 }

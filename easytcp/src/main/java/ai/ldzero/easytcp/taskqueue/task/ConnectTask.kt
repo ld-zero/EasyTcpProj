@@ -9,7 +9,7 @@ import java.net.InetSocketAddress
  *
  * @author ldzero
  */
-internal class ConnectTask(clientId: Int): BaseTask(clientId) {
+internal class ConnectTask(clientId: Int) : BaseTask(clientId) {
 
     override fun run() {
         val client = getClient() ?: return
@@ -19,9 +19,12 @@ internal class ConnectTask(clientId: Int): BaseTask(clientId) {
         }
         val address = InetSocketAddress(setting.host, setting.port)
         val socket = client.socket
+        if (setting.readTimeout > 0) {
+            socket.soTimeout = setting.readTimeout
+        }
         try {
             when {
-                setting.connTimeout >= 0 -> socket.connect(address, setting.connTimeout)
+                setting.connTimeout > 0 -> socket.connect(address, setting.connTimeout)
                 else -> socket.connect(address)
             }
         } catch (e: Exception) {
@@ -30,5 +33,6 @@ internal class ConnectTask(clientId: Int): BaseTask(clientId) {
             return
         }
         client.connListener.onConnect()
+        client.enableReaderIfAuto()
     }
 }

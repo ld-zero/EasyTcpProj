@@ -15,4 +15,10 @@ internal class TcpClientSetting {
     var connTimeout: Int = -1
 
     var taskQueueSizse: Int = 100
+
+    var readTimeout: Int = 0
+
+    var autoEnableReader: Boolean = true
+
+    var readBuffSize: Int = 1024
 }
