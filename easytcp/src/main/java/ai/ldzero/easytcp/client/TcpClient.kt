@@ -13,6 +13,33 @@ import java.nio.charset.Charset
  * @author ldzero
  */
 interface TcpClient {
+    fun connect()
+
+    fun sequentialConnect()
+
+    fun close()
+
+    fun sequentialClose()
+
+    fun destroy()
+
+    fun write(data: String, charset: Charset = Charsets.UTF_8)
+
+    fun write(data: ByteArray)
+
+    fun sequentialWrite(data: String, charset: Charset = Charsets.UTF_8)
+
+    fun sequentialWrite(data: ByteArray)
+
+    fun enableReader()
+
+    fun disableReader()
+
+    fun resetConnListener(listener: ConnListener?)
+
+    fun resetWriteListener(listener: WriteListener?)
+
+    fun resetReadListener(listener: ReadListener?)
 
     object Builder {
 
@@ -78,32 +105,4 @@ interface TcpClient {
             return TcpClientImpl(setting, connListener, writeListener, readListener)
         }
     }
-
-    fun connect()
-
-    fun sequentialConnect()
-
-    fun write(data: String, charset: Charset = Charsets.UTF_8)
-
-    fun write(data: ByteArray)
-
-    fun sequentialWrite(data: String, charset: Charset = Charsets.UTF_8)
-
-    fun sequentialWrite(data: ByteArray)
-
-    fun enableReader()
-
-    fun disableReader()
-
-    fun close()
-
-    fun sequentialClose()
-
-    fun destroy()
-
-    fun resetConnListener(listener: ConnListener?)
-
-    fun resetWriteListener(listener: WriteListener?)
-
-    fun resetReadListener(listener: ReadListener?)
 }

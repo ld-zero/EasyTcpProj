@@ -6,8 +6,7 @@ package ai.ldzero.easytcp.taskqueue.task
  *
  * @author ldzero
  */
-internal class WriteTask(clientId: Int, val data: ByteArray): BaseTask(clientId) {
-
+internal class WriteTask(CLIENT_ID: Int, val data: ByteArray) : BaseTask(CLIENT_ID) {
     override fun run() {
         val client = getClient() ?: return
         try {

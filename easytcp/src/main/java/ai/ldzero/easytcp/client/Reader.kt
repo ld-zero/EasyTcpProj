@@ -11,22 +11,21 @@ import java.util.*
  *
  * @author ldzero
  */
-internal class Reader(val clientId: Int, val bufferSize: Int): Thread() {
-
+internal class Reader(private val CLIENT_ID: Int, private val BUFFER_SIZE: Int) : Thread() {
     private var isRunning = false
 
     private var hasStop = false
 
     override fun run() {
-        if (bufferSize <= 0) throw IllegalArgumentException("buffer size must be greater than 0")
-        val client = TcpClientHolder.getTcpClient(clientId) ?: return
+        if (BUFFER_SIZE <= 0) throw IllegalArgumentException("buffer size must be greater than 0")
+        val client = TcpClientHolder.getTcpClient(CLIENT_ID) ?: return
         val socket = client.socket
         val inputStream = socket.getInputStream()
         val bufferedInputStream = BufferedInputStream(inputStream)
-        val buffer = ByteArray(bufferSize)
+        val buffer = ByteArray(BUFFER_SIZE)
         while (isRunning) {
             try {
-                val readSize = bufferedInputStream.read(buffer, 0, bufferSize)
+                val readSize = bufferedInputStream.read(buffer, 0, BUFFER_SIZE)
                 if (readSize != -1) {
                     client.readListener.onRead(Arrays.copyOf(buffer, readSize))
                     Arrays.fill(buffer, 0)
@@ -49,7 +48,7 @@ internal class Reader(val clientId: Int, val bufferSize: Int): Thread() {
     fun stopWorking() {
         if (!isRunning || hasStop) return
         isRunning = false
-        val client = TcpClientHolder.getTcpClient(clientId) ?: return
+        val client = TcpClientHolder.getTcpClient(CLIENT_ID) ?: return
         val socket = client.socket
         socket.getInputStream().close()
         socket.shutdownInput()

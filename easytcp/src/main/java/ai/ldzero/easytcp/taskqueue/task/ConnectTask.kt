@@ -1,6 +1,5 @@
 package ai.ldzero.easytcp.taskqueue.task
 
-import ai.ldzero.easytcp.TcpClientHolder
 import java.net.InetSocketAddress
 
 /**
@@ -9,11 +8,10 @@ import java.net.InetSocketAddress
  *
  * @author ldzero
  */
-internal class ConnectTask(clientId: Int) : BaseTask(clientId) {
-
+internal class ConnectTask(CLIENT_ID: Int) : BaseTask(CLIENT_ID) {
     override fun run() {
         val client = getClient() ?: return
-        val setting = client.setting
+        val setting = client.SETTING
         if (setting.host.isEmpty() || setting.port <= 0 || setting.port > 65535) {
             throw IllegalArgumentException("host or port is illegal")
         }

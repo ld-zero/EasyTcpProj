@@ -9,8 +9,6 @@ import ai.ldzero.easytcp.client.TcpClientImpl
  *
  * @author ldzero
  */
-internal abstract class BaseTask(val clientId: Int): ITask {
-
-    fun getClient(): TcpClientImpl? = TcpClientHolder.getTcpClient(clientId)
-
+internal abstract class BaseTask(private val CLIENT_ID: Int) : ITask {
+    fun getClient(): TcpClientImpl? = TcpClientHolder.getTcpClient(CLIENT_ID)
 }

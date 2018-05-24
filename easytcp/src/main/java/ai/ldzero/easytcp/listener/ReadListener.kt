@@ -7,9 +7,13 @@ package ai.ldzero.easytcp.listener
  * @author ldzero
  */
 interface ReadListener {
-
     fun onRead(data: ByteArray)
 
     fun onError(e: Exception)
+}
 
+class EmptyReadListener : ReadListener {
+    override fun onRead(data: ByteArray) {}
+
+    override fun onError(e: Exception) {}
 }

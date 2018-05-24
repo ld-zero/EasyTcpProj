@@ -11,3 +11,9 @@ interface WriteListener {
 
     fun onWriteFail(e: Exception, data: ByteArray)
 }
+
+class EmptyWriteListener : WriteListener {
+    override fun onWriteSuccess(data: ByteArray) {}
+
+    override fun onWriteFail(e: Exception, data: ByteArray) {}
+}

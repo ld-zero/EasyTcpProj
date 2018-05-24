@@ -3,23 +3,21 @@ package ai.ldzero.easytcp.taskqueue
 import ai.ldzero.easytcp.taskqueue.task.EmptyTask
 import ai.ldzero.easytcp.taskqueue.task.ITask
 import java.util.concurrent.ArrayBlockingQueue
+
 /**
  * Class Description
  * Created on 2018/5/22.
  *
  * @author ldzero
  */
-internal class TaskExecutor(taskCount: Int) : Thread() {
-
+internal class TaskExecutor(TASK_COUNT: Int) : Thread() {
     private val taskQueue: ArrayBlockingQueue<ITask>
 
     private var isRunning = false
 
     init {
-        if (taskCount <= 0) {
-            throw IllegalArgumentException("size of task queue must be greater than 0")
-        }
-        taskQueue = ArrayBlockingQueue(taskCount)
+        if (TASK_COUNT <= 0) throw IllegalArgumentException("size of task queue must be greater than 0")
+        taskQueue = ArrayBlockingQueue(TASK_COUNT)
     }
 
     override fun run() {
@@ -33,7 +31,9 @@ internal class TaskExecutor(taskCount: Int) : Thread() {
         taskQueue.offer(task)
     }
 
-    fun blockingAddTask(task: ITask) = taskQueue.put(task)
+    fun blockingAddTask(task: ITask) {
+        taskQueue.put(task)
+    }
 
     fun startWorking() {
         isRunning = true

@@ -6,8 +6,7 @@ package ai.ldzero.easytcp.taskqueue.task
  *
  * @author ldzero
  */
-internal class CloseTask(clientId: Int): BaseTask(clientId) {
-
+internal class CloseTask(CLIENT_ID: Int) : BaseTask(CLIENT_ID) {
     override fun run() {
         val client = getClient() ?: return
         val socket = client.socket

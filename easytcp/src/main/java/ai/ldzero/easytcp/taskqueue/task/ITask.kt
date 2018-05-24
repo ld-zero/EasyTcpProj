@@ -7,7 +7,9 @@ package ai.ldzero.easytcp.taskqueue.task
  * @author ldzero
  */
 internal interface ITask {
-
     fun run()
+}
 
+internal class EmptyTask : ITask {
+    override fun run() {}
 }

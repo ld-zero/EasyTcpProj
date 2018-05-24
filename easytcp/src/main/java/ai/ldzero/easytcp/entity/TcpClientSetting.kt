@@ -7,7 +7,6 @@ package ai.ldzero.easytcp.entity
  * @author ldzero
  */
 internal class TcpClientSetting {
-
     var host: String = ""
 
     var port: Int = -1
