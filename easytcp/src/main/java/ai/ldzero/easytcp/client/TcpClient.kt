@@ -34,6 +34,11 @@ interface TcpClient {
             return this
         }
 
+        fun setConnTimeout(connTimeout: Int): Builder {
+            setting.connTimeout = connTimeout
+            return this
+        }
+
         fun setTaskQueueSize(taskQueueSize: Int): Builder {
             setting.taskQueueSizse = taskQueueSize
             return this
