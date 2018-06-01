@@ -1,19 +1,19 @@
 package ai.ldzero.easytcp.listener
 
-/**
- * Class Description
- * Created on 2018/5/22.
- *
- * @author ldzero
- */
+/** listener of tcpClient connecting */
 interface ConnListener {
+
+    /** client connects successfully */
     fun onConnect()
 
+    /** client failed to connect */
     fun onConnFail(e: Exception)
 
+    /** client is closed */
     fun onClose()
 }
 
+/** empty implementation of [ConnListener] */
 class EmptyConnListener : ConnListener {
     override fun onConnect() {}
 

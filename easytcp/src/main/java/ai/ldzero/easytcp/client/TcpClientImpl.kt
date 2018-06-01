@@ -12,18 +12,18 @@ import java.net.Socket
 import java.nio.charset.Charset
 
 /**
- * Class Description
- * Created on 2018/5/22.
+ * an implementation of [TcpClient]
  *
- * @author ldzero
+ * @constructor build a tcpClient with [SETTING], and setup listeners
  */
-
 internal class TcpClientImpl internal constructor(
     _setting: TcpClientSetting,
     _connListener: ConnListener?,
     _writeListener: WriteListener?,
     _readListener: ReadListener?
 ) : TcpClient {
+
+    /** id of this client */
     val ID = this.hashCode()
 
     val socket = Socket()
@@ -32,7 +32,8 @@ internal class TcpClientImpl internal constructor(
 
     private val executors = AppExecutors()
 
-    private val taskExecutor: TaskExecutor = TaskExecutor(_setting.taskQueueSizse)
+    /** a task executor which containing a task queue, it will execute task sequentially */
+    private val taskExecutor: TaskExecutor = TaskExecutor(_setting.taskQueueSize)
 
     private val reader: Reader = Reader(ID, _setting.readBuffSize)
 

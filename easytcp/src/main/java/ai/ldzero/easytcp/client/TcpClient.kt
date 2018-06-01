@@ -7,32 +7,59 @@ import ai.ldzero.easytcp.listener.WriteListener
 import java.nio.charset.Charset
 
 /**
- * Class Description
- * Created on 2018/5/22.
- *
- * @author ldzero
+ * an interface containing exposure to external methods of tcp client,
+ * using this client, you can easily use the features commonly used in tcp
  */
 interface TcpClient {
+
+    /** connect to server immediately */
     fun connect()
 
+    /** add a connect task to task queue, when it comes to this task it will be executed */
     fun sequentialConnect()
 
+    /** close the tcpClient immediately, and this client cannot be used again */
     fun close()
 
+    /** add a close tcpClient task to task queue, when it comes to this task it will be executed */
     fun sequentialClose()
 
+    /** destroy the tcpClient immediately, used to release the resource of tcpClient */
     fun destroy()
 
+    /**
+     * [data] will be encoded into a byte array by [charset],
+     * then wrote to server immediately
+     */
     fun write(data: String, charset: Charset = Charsets.UTF_8)
 
+    /**
+     * write [data] to server
+     */
     fun write(data: ByteArray)
 
+    /**
+     * add a write data task to task queue,
+     * when it comes to this task it will be executed
+     * while executing, [data] will be encoded into a byte array by [charset],
+     * then wrote to server
+     */
     fun sequentialWrite(data: String, charset: Charset = Charsets.UTF_8)
 
+    /**
+     * add a write data task to task queue,
+     * when it comes to this task it will be executed
+     * while executing, [data] will be wrote to server
+     */
     fun sequentialWrite(data: ByteArray)
 
+    /** after enabling reader, tcpClient can receive data from server */
     fun enableReader()
 
+    /**
+     * after disabling reader, tcpClient will no longer receive data from server,
+     * and reader cannot be enabled again after disabled
+     */
     fun disableReader()
 
     fun resetConnListener(listener: ConnListener?)
@@ -41,6 +68,10 @@ interface TcpClient {
 
     fun resetReadListener(listener: ReadListener?)
 
+    /**
+     * a builder of tcpClient which can set several attributes and build a tcpClient,
+     * the specific meaning of each attribute can refer to the [TcpClientSetting] description
+     */
     object Builder {
 
         private val setting = TcpClientSetting()
@@ -67,7 +98,7 @@ interface TcpClient {
         }
 
         fun setTaskQueueSize(taskQueueSize: Int): Builder {
-            setting.taskQueueSizse = taskQueueSize
+            setting.taskQueueSize = taskQueueSize
             return this
         }
 

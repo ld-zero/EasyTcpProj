@@ -1,17 +1,16 @@
 package ai.ldzero.easytcp.listener
 
-/**
- * Class Description
- * Created on 2018/5/24.
- *
- * @author ldzero
- */
+/** listener of tcpClient reading */
 interface ReadListener {
+
+    /** read data from server */
     fun onRead(data: ByteArray)
 
+    /** error occurred */
     fun onError(e: Exception)
 }
 
+/** empty implementation of [ReadListener] */
 class EmptyReadListener : ReadListener {
     override fun onRead(data: ByteArray) {}
 

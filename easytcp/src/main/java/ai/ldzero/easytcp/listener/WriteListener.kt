@@ -1,17 +1,16 @@
 package ai.ldzero.easytcp.listener
 
-/**
- * Class Description
- * Created on 2018/5/23.
- *
- * @author ldzero
- */
+/** listener of tcpClient writing */
 interface WriteListener {
+
+    /** write data to server successfully */
     fun onWriteSuccess(data: ByteArray)
 
+    /** failed to write data to server */
     fun onWriteFail(e: Exception, data: ByteArray)
 }
 
+/** empty implementation of [WriteListener] */
 class EmptyWriteListener : WriteListener {
     override fun onWriteSuccess(data: ByteArray) {}
 

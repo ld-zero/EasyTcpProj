@@ -1,11 +1,6 @@
 package ai.ldzero.easytcp.taskqueue.task
 
-/**
- * Class Description
- * Created on 2018/5/22.
- *
- * @author ldzero
- */
+/** a task which can close the socket */
 internal class CloseTask(CLIENT_ID: Int) : BaseTask(CLIENT_ID) {
     override fun run() {
         val client = getClient() ?: return

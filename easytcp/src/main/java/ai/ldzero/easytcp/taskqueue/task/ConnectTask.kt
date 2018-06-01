@@ -2,12 +2,7 @@ package ai.ldzero.easytcp.taskqueue.task
 
 import java.net.InetSocketAddress
 
-/**
- * Class Description
- * Created on 2018/5/22.
- *
- * @author ldzero
- */
+/** a task which can connect to server */
 internal class ConnectTask(CLIENT_ID: Int) : BaseTask(CLIENT_ID) {
     override fun run() {
         val client = getClient() ?: return

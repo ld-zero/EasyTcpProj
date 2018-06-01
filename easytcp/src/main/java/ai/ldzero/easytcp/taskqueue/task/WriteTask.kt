@@ -1,11 +1,6 @@
 package ai.ldzero.easytcp.taskqueue.task
 
-/**
- * Class Description
- * Created on 2018/5/23.
- *
- * @author ldzero
- */
+/** a task which can write data to server */
 internal class WriteTask(CLIENT_ID: Int, val data: ByteArray) : BaseTask(CLIENT_ID) {
     override fun run() {
         val client = getClient() ?: return

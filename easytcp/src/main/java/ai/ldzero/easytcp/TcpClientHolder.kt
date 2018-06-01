@@ -2,13 +2,10 @@ package ai.ldzero.easytcp
 
 import ai.ldzero.easytcp.client.TcpClientImpl
 
-/**
- * Class Description
- * Created on 2018/5/22.
- *
- * @author ldzero
- */
+/** [TcpClientHolder] holds all clients that has not closed or destroyed */
 internal object TcpClientHolder {
+
+    /** key is the id of client, value is tcpClientImpl */
     val ID_CLIENT_IMPL_MAP: MutableMap<Int, TcpClientImpl> = mutableMapOf()
 
     fun addTcpClient(client: TcpClientImpl) {

@@ -4,15 +4,13 @@ import ai.ldzero.easytcp.taskqueue.task.EmptyTask
 import ai.ldzero.easytcp.taskqueue.task.ITask
 import java.util.concurrent.ArrayBlockingQueue
 
-/**
- * Class Description
- * Created on 2018/5/22.
- *
- * @author ldzero
- */
+/** [TaskExecutor] contain a task queue, it can implement the sequential execution of tasks */
 internal class TaskExecutor(TASK_COUNT: Int) : Thread() {
+
+    /** taks queue */
     private val taskQueue: ArrayBlockingQueue<ITask>
 
+    /** control the running status of [TaskExecutor] */
     private var isRunning = false
 
     init {
@@ -27,19 +25,23 @@ internal class TaskExecutor(TASK_COUNT: Int) : Thread() {
         }
     }
 
+    /** add a task to task queue */
     fun addTask(task: ITask) {
         taskQueue.offer(task)
     }
 
+    /** add a task to task queue, it will block until successfully add */
     fun blockingAddTask(task: ITask) {
         taskQueue.put(task)
     }
 
+    /** start the executing thread */
     fun startWorking() {
         isRunning = true
         start()
     }
 
+    /** stop the executing thread */
     fun stopWorking() {
         if (!isRunning) return
         taskQueue.clear()

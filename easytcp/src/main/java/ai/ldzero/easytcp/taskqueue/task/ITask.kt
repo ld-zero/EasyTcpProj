@@ -1,15 +1,13 @@
 package ai.ldzero.easytcp.taskqueue.task
 
-/**
- * Class Description
- * Created on 2018/5/22.
- *
- * @author ldzero
- */
+/** interface of task */
 internal interface ITask {
+
+    /** the task logic */
     fun run()
 }
 
+/** empty implementation of [ITask] */
 internal class EmptyTask : ITask {
     override fun run() {}
 }
